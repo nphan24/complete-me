@@ -12,17 +12,8 @@ describe('NODE', () => {
     expect(node).to.exist
   });
 
-  it('should take a letter', () => {
-    expect(node.letter).to.equal('p')
-  });
-
-  it('should have a defaulted letter value of null if no letter in inserted', () => {
-    let node = new Node();
-    expect(node.letter).to.equal(null)
-  })
-
   it('should have a defaulted complete word value of false', () => {
-    expect(node.completedWord).to.equal(false)
+    expect(node.completeWord).to.equal(false)
   });
 
   it('should start out with an empty children object', () => {
