@@ -57,8 +57,48 @@ describe('TRIE', () => {
       trie.insert('catalog');
 
       expect(Object.keys(trie.children)).to.deep.equal(['d','c','p']);
-      expect(trie.wordCount).to.equal(5)
+      expect(trie.wordCount).to.equal(4)
     });
+
+    it('should not increase the wordCount if the word is inserted twice', () => {
+      trie.insert('cat');
+      trie.insert('can');
+      trie.insert('cattle');
+      trie.insert('can');
+
+      expect(trie.wordCount).to.deep.equal(3);
+
+    });
+
+    it('should only add one childe node of each letter', () => {
+      trie.insert('pizza');
+      trie.insert('piano');
+
+      let childNodes = Object.keys(trie.children);
+
+      expect(childNodes.length).to.equal(1);
+    })
+
+
+    it('should only create one node when two words with same prefix are added', () => {
+      trie.insert("pizza");
+      trie.insert("piano");
+
+      var childNodes1 = Object.keys(trie.children);
+
+      expect(childNodes1.length).to.equal(1);
+      expect(childNodes1).to.deep.equal(['p']);
+
+      let trie2 = new Trie();
+
+      trie2.insert("lamb");
+      trie2.insert("lady");
+
+      var childNodes2 = Object.keys(trie2.children);
+
+      expect(childNodes2.length).to.equal(1);
+      expect(childNodes2).to.deep.equal(['l']);
+    }) 
   })
 
   describe('SUGGEST', () => {
@@ -77,7 +117,6 @@ describe('TRIE', () => {
   it('should return an array of suggested words', () => {
 
     let results = trie.suggest('pi');
-    // console.log(JSON.stringify(trie,null,4));
     let check1 = results.some(result => result === 'pizza');
     let check2 = results.some(result => result === 'pizzas');
     let check3 = results.some(result => result === 'piano');
